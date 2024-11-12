@@ -19,7 +19,19 @@ jobs:
           service_account: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to Google Cloud
+      - name: Install Terraform
         run: |
-          gcloud auth print-access-token
-          # Add your deployment commands here
+          curl -LO "https://releases.hashicorp.com/terraform/1.3.0/terraform_1.3.0_linux_amd64.zip"
+          unzip terraform_1.3.0_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform -v
+
+      - name: Terraform Init
+        run: |
+          cd terraform
+          terraform init
+
+      - name: Terraform Apply
+        run: |
+          cd terraform
+          terraform apply -auto-approve
