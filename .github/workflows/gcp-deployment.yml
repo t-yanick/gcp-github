@@ -30,6 +30,8 @@ jobs:
           terraform init
 
       - name: Terraform Apply
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}  # Ensure this points to your service account key
         run: |
           cd terraform
           terraform apply -auto-approve
