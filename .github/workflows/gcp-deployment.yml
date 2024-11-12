@@ -1,0 +1,25 @@
+name: GCP Workload Identity Federation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to Google Cloud
+        run: |
+          gcloud auth print-access-token
+          # Add your deployment commands here
