@@ -16,7 +16,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0.2.0
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_email: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account_email: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
           export_default_credentials: true
 
       - name: Set up Terraform
@@ -30,8 +30,6 @@ jobs:
           terraform init
 
       - name: Terraform Apply
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}  # Ensure this points to your service account key
         run: |
           cd terraform
           terraform apply -auto-approve
